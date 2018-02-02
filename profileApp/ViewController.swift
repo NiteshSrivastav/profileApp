@@ -26,6 +26,9 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
     @IBOutlet weak var contactTf: UITextField!
     var picker : UIImagePickerController? = UIImagePickerController()
     var flag = 0
+    var gender = 0
+    var dateT = "date"
+    var datepickerSelect = 0
     
     @IBOutlet weak var viefField: UIView!
     @IBOutlet weak var coverPic: UIImageView!
@@ -38,7 +41,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         nameTf.delegate = self
         addTf.delegate = self
         emailTf.delegate = self
-        let tap = UITapGestureRecognizer(target: self, action:Selector (("textFieldDidEndEditing:")))
+        let tap = UITapGestureRecognizer(target: self, action: Selector (("textFieldDidEndEditing:")))
         self.viefField.addGestureRecognizer(tap)
         
     }
@@ -48,6 +51,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
     }
 
     var activeField : UITextField?
+   
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
@@ -104,6 +108,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         
             mBtn.backgroundColor = UIColor.black
            fBtn.backgroundColor = UIColor.white
+        gender = 1
         
         
         
@@ -112,14 +117,85 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
     @IBAction func femaleBtn(_ sender: UIButton) {
         fBtn.backgroundColor = UIColor.black
         mBtn.backgroundColor = UIColor.white
+        gender = 2
+    }
+    
+    @IBAction func datePickerChanged(_ sender: UIDatePicker) {
+        
+        datepickerSelect = 1
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateStyle = DateFormatter.Style.short
+     //   dateFormatter.timeStyle = DateFormatter.Style.short
+        
+        let strDate = dateFormatter.string(from: dateP.date)
+     
+        dateT = strDate as String
+    
     }
     
     @IBAction func submitButton(_ sender: UIButton) {
-        let name = nameTf.text
-        print(name!)
-        print("Address ",addTf.text as! Any)
-        print("Email ",emailTf.text as Any)
+        if (nameTf.text?.isEmpty)!{
+            let alert = UIAlertController(title:  "Missing", message: "Please Enter Customer Name.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+          
+        }
+        else if(addTf.text?.isEmpty)!{
+            let alert = UIAlertController(title:  "Missing", message: "Please Enter Address.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+            
+        }
+        else if(emailTf.text?.isEmpty)!{
+            let alert = UIAlertController(title:  "Missing", message: "Please Enter Email Id.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        }
+        else if(dateT == "date"){
+            let alert = UIAlertController(title:  "Missing", message: "Please Select Date of Birth.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        }
+        else if(contactTf.text?.isEmpty)!{
+            let alert = UIAlertController(title:  "Missing", message: "Please Enter Contact.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+            
+        }
+            
+        else if(gender == 0){
+            let alert = UIAlertController(title:  "Missing", message: "Please Select Gender.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        }
+        else
+        {
         
+        
+        let name = nameTf.text
+        let address = addTf.text
+        let email = emailTf.text
+    
+        let contact = contactTf.text
+        print("Name : ",name!)
+        print("Address : ",address!)
+        print("Email : ",email!)
+       print("Date : ",dateT)
+        
+        print("Contact : ",contact!)
+        if (gender == 1){
+            print("Gender : Male")}
+        else if(gender == 2)
+        { print("Gender : Female")}
+        
+    }
     }
     
     
